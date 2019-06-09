@@ -31,7 +31,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
   db.sequelize.sync()
   console.log('Example app listening on http://localhost:3000')
 })
