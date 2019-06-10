@@ -28,9 +28,9 @@
       <td>
         <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
           {{#if this.isAdmin}}
-          <button type="submit" class="btn btn-link">set as admin</button>
-          {{else}}
           <button type="submit" class="btn btn-link">set as user</button>
+          {{else}}
+          <button type="submit" class="btn btn-link">set as admin</button>
           {{/if}}
         </form>
       </td>
