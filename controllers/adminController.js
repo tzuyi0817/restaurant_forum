@@ -1,5 +1,6 @@
 const db = require('../models')
 const Restaurant = db.Restaurant
+const User = db.User
 const Category = db.Category
 const fs = require('fs')
 const imgur = require('imgur-node-api')
@@ -120,7 +121,29 @@ const adminController = {
         res.redirect('/admin/restaurants')
       })
     })
+  },
+
+  getUsers: (req, res) => {
+    User.findAll().then(users => {
+      res.render('admin/user', { users })
+    })
+  },
+
+  putUsers: (req, res) => {
+    User.findByPk(req.params.id).then(user => {
+      if (user.isAdmin === true) {
+        user.isAdmin = false
+      } else if (user.isAdmin === false) {
+        user.isAdmin = true
+      }
+      user.save().then(user => {
+        req.flash('success_messages', '權限修改成功')
+        res.redirect('/admin/users')
+      })
+    })
   }
 }
+
+
 
 module.exports = adminController
