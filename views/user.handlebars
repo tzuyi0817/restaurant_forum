@@ -1,0 +1,17 @@
+<div class="card mb-3">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="{{self.image}}" class="card-img" alt="avatar" style="width: 250px;margin-bottom: 25px;">
+    </div>
+
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{self.name}}</h5>
+        <p class="card-text">{{self.email}}</p>
+        {{#ifCond self.id user.id}}
+        <a href="/users/{{self.id}}/edit" class="btn btn-outline-primary">edit</a>
+        {{/ifCond}}
+      </div>
+    </div>
+  </div>
+</div>
