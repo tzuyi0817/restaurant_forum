@@ -28,7 +28,7 @@ const restController = {
         description: r.dataValues.description.substring(0, 50)
       }))
       Category.findAll().then(categories => {
-        res.render('restaurants', { restaurants: data, categories, categoryId, page, totalPage, prev, next })
+        res.render('restaurants', { restaurants: data, categories, categoryId: categoryId, page, totalPage, prev, next })
       })
     })
   },
