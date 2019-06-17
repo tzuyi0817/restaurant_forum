@@ -1,15 +1,15 @@
 <div class="card mb-3">
   <div class="row no-gutters">
     <div class="col-md-4">
-      <img src="{{self.image}}" class="card-img" alt="avatar" style="width: 250px;margin-bottom: 25px;">
+      <img src="{{profile .image}}" class="card-img" alt="avatar" style="width: 250px;margin-bottom: 25px;">
     </div>
 
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title">{{self.name}}</h5>
-        <p class="card-text">{{self.email}}</p>
-        {{#ifCond self.id user.id}}
-        <a href="/users/{{self.id}}/edit" class="btn btn-outline-primary">edit</a>
+        <h5 class="card-title">{{profile.name}}</h5>
+        <p class="card-text">{{profile.email}}</p>
+        {{#ifCond profile.id user.id}}
+        <a href="/users/{{profile .id}}/edit" class="btn btn-outline-primary">edit</a>
         {{/ifCond}}
       </div>
     </div>
@@ -20,7 +20,7 @@
       已留下 {{total}} 則評論
     </div>
     <div class="list-group">
-      {{#each self.Comments}}
+      {{#each profile.Comments}}
       <a href="/restaurants/{{this.Restaurant.id}}" class="list-group-item list-group-item-action">
         <p>{{this.text}}</p>
         <small>{{this.Restaurant.name}} 餐廳　－{{moment this.createdAt}}</small>

@@ -53,7 +53,7 @@ const userController = {
   getUser: (req, res) => {
     User.findByPk(req.params.id, { include: { model: Comment, include: [Restaurant] } }).then(user => {
       const total = user.Comments.length
-      res.render('user', { self: user, total })
+      res.render('user', { profile: user, total })
     })
   },
 
