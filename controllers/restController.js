@@ -50,6 +50,13 @@ const restController = {
         res.render('feeds', { restaurants, comments })
       })
     })
+  },
+
+  getDashboard: (req, res) => {
+    Restaurant.findByPk(req.params.id, { include: [Category, { model: Comment, include: [Restaurant] }] }).then(restaurant => {
+      const total = restaurant.Comments.length
+      res.render('dashboard', { restaurant, total })
+    })
   }
 }
 
