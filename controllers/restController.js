@@ -61,9 +61,29 @@ const restController = {
   },
 
   getDashboard: (req, res) => {
-    Restaurant.findByPk(req.params.id, { include: [Category, { model: Comment, include: [Restaurant] }] }).then(restaurant => {
+    Restaurant.findByPk(req.params.id, {
+      include: [
+        Category,
+        { model: Comment, include: [Restaurant] },
+        { model: User, as: 'FavoritedUsers' }
+      ]
+    }).then(restaurant => {
       const total = restaurant.Comments.length
-      res.render('dashboard', { restaurant, total })
+      const FavoriteCount = restaurant.FavoritedUsers.length
+      res.render('dashboard', { restaurant, total, FavoriteCount })
+    })
+  },
+
+  getTopRestaurant: (req, res) => {
+    Restaurant.findAll({ limit: 10, include: [{ model: User, as: 'FavoritedUsers' }] }).then(restaurants => {
+      restaurants = restaurants.map(r => ({
+        ...r.dataValues,
+        description: r.dataValues.description.substring(0, 50),
+        FavoriteCount: r.FavoritedUsers.length,
+        isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(r.id),
+      }))
+      restaurants = restaurants.sort((a, b) => b.FavoriteCount - a.FavoriteCount)
+      res.render('topRestaurant', { restaurants })
     })
   }
 }
