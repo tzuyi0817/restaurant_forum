@@ -54,9 +54,33 @@ const userController = {
   },
 
   getUser: (req, res) => {
-    User.findByPk(req.params.id, { include: { model: Comment, include: [Restaurant] } }).then(user => {
+    User.findByPk(req.params.id, {
+      include: [
+        { model: Comment, include: [Restaurant] },
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' },
+        { model: Restaurant, as: 'FavoritedRestaurants' }
+      ]
+    }).then(user => {
       const total = user.Comments.length
-      res.render('user', { profile: user, total })
+      const FollowerCount = user.Followers.length
+      const FollowingCount = user.Followings.length
+      const FavoriteCount = user.FavoritedRestaurants.length
+      const isFollowed = req.user.Followings.map(d => d.id).includes(user.id)
+      const restaurantComments = user.Comments.map(comment => comment.Restaurant)
+      const filterRest = filterValue(restaurantComments)
+      const restaurantCount = filterRest.length
+
+      res.render('user', {
+        profile: user,
+        total,
+        restaurantCount,
+        FollowingCount,
+        FollowerCount,
+        FavoriteCount,
+        isFollowed,
+        filterRest
+      })
     })
   },
 
@@ -173,3 +197,14 @@ const userController = {
 }
 
 module.exports = userController
+
+const filterValue = (array) => {
+  const restaurant = {}
+
+  return array.filter(value => {
+    const string = JSON.stringify(value)
+    const match = Boolean(restaurant[string])
+
+    return (match ? false : restaurant[string] = true)
+  })
+}

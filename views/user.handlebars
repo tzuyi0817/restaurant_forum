@@ -1,7 +1,7 @@
 <div class="card mb-3">
   <div class="row no-gutters">
     <div class="col-md-4">
-      <img src="{{profile .image}}" class="card-img" alt="avatar" style="width: 250px;margin-bottom: 25px;">
+      <img src="{{profile.image}}" class="card-img" alt="avatar" style="width: 250px;margin-bottom: 25px;">
     </div>
 
     <div class="col-md-8">
@@ -9,8 +9,81 @@
         <h5 class="card-title">{{profile.name}}</h5>
         <p class="card-text">{{profile.email}}</p>
         {{#ifCond profile.id user.id}}
-        <a href="/users/{{profile .id}}/edit" class="btn btn-outline-primary">edit</a>
+        <a href="/users/{{profile.id}}/edit" class="btn btn-outline-primary">edit</a>
         {{/ifCond}}
+        {{#if isFollowed }}
+        <form action="/following/{{profile.id}}?_method=DELETE" method="POST" style="display: contents;">
+          <button type="submit" class="btn btn-danger ml-2">取消追蹤</button>
+        </form>
+        {{else}}
+        <form action="/following/{{profile.id}}" method="POST" style="display: contents;">
+          <button type="submit" class="btn btn-primary ml-2">追蹤</button>
+        </form>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <div class="card ml-3">
+    <div class="followings">
+      <p>已追蹤 {{FollowingCount}} 個對象</p>
+      <div class="row">
+        {{#each profile.Followings}}
+        <div class="card">
+          <a href="/users/{{this.id}}">
+            <img src="{{this.image}}" class="card-img-top ml-2" alt="avatar" style="width: 100px;">
+            <p class="card-text ml-4">{{this.name}}</p>
+          </a>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  <div class="card ml-3 mt-2">
+    <div class="followers">
+      <p>被 {{FollowerCount}} 個對象追蹤</p>
+      <div class="row">
+        {{#each profile.Followers}}
+        <div class="card">
+          <a href="/users/{{this.id}}">
+            <img src="{{this.image}}" class="card-img-top ml-2" alt="avatar" style="width: 100px;">
+            <p class="card-text ml-4">{{this.name}}</p>
+          </a>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  <div class="card ml-3 mt-2">
+    <div class="FavoritedRestaurants">
+      <p>已收藏 {{FavoriteCount}} 個餐廳</p>
+      <div class="row">
+        {{#each profile.FavoritedRestaurants}}
+        <div class="card">
+          <a href="/restaurants/{{this.id}}">
+            <img src="{{this.image}}" class="card-img-top ml-2" alt="avatar" style="width: 100px;">
+            <p class="card-text ml-2" style="font-size: 15px;">{{this.name}}</p>
+          </a>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  <div class="card ml-3 mt-2">
+    <div class="CommentRestaurants">
+      <p>評論過 {{restaurantCount}} 個餐廳</p>
+      <div class="row">
+        {{#each filterRest }}
+        <div class="card col-4">
+          <a href="/restaurants/{{this.id}}">
+            <img src="{{this.image}}" class="card-img-top ml-2" alt="avatar" style="width: 100px;">
+            <small class="card-text ml-2">{{this.name}}</small>
+          </a>
+        </div>
+        {{/each}}
       </div>
     </div>
   </div>
