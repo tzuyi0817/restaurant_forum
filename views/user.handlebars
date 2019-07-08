@@ -24,14 +24,16 @@
     </div>
   </div>
 
-  <div class="card ml-3">
-    <div class="followings">
-      <p>已追蹤 {{FollowingCount}} 個對象</p>
+  <div class="card my-3 w-100">
+    <div class="card-header">
+      已追蹤 {{FollowingCount}} 個對象
+    </div>
+    <div class="card-body">
       <div class="row">
         {{#each profile.Followings}}
-        <div class="card">
+        <div class="list-group col-2">
           <a href="/users/{{this.id}}">
-            <img src="{{this.image}}" class="card-img-top ml-2" alt="avatar" style="width: 100px;">
+            <img src="{{this.image}}" class="card-img" alt="avatar" style="width: 100px;">
             <p class="card-text ml-4">{{this.name}}</p>
           </a>
         </div>
@@ -40,14 +42,16 @@
     </div>
   </div>
 
-  <div class="card ml-3 mt-2">
-    <div class="followers">
-      <p>被 {{FollowerCount}} 個對象追蹤</p>
+  <div class="card my-3 w-100">
+    <div class="card-header">
+      被 {{FollowerCount}} 個對象追蹤
+    </div>
+    <div class="card-body">
       <div class="row">
         {{#each profile.Followers}}
-        <div class="card">
+        <div class="list-group col-2">
           <a href="/users/{{this.id}}">
-            <img src="{{this.image}}" class="card-img-top ml-2" alt="avatar" style="width: 100px;">
+            <img src="{{this.image}}" class="card-img" alt="avatar" style="width: 100px;">
             <p class="card-text ml-4">{{this.name}}</p>
           </a>
         </div>
@@ -56,15 +60,17 @@
     </div>
   </div>
 
-  <div class="card ml-3 mt-2">
-    <div class="FavoritedRestaurants">
-      <p>已收藏 {{FavoriteCount}} 個餐廳</p>
+  <div class="card my-3 w-100">
+    <div class="card-header">
+      已收藏 {{FavoriteCount}} 個餐廳
+    </div>
+    <div class="card-body">
       <div class="row">
         {{#each profile.FavoritedRestaurants}}
-        <div class="card">
+        <div class="list-group col-4">
           <a href="/restaurants/{{this.id}}">
-            <img src="{{this.image}}" class="card-img-top ml-2" alt="avatar" style="width: 100px;">
-            <p class="card-text ml-2" style="font-size: 15px;">{{this.name}}</p>
+            <img src="{{this.image}}" class="card-img mb-2" alt="avatar" style="width: 100px;">
+            <small class="card-text ml-2" style="font-size: 15px;">{{this.name}}</small>
           </a>
         </div>
         {{/each}}
@@ -72,14 +78,16 @@
     </div>
   </div>
 
-  <div class="card ml-3 mt-2">
-    <div class="CommentRestaurants">
-      <p>評論過 {{restaurantCount}} 個餐廳</p>
+  <div class="card my-3 w-100">
+    <div class="card-header">
+      評論過 {{restaurantCount}} 個餐廳
+    </div>
+    <div class="card-body">
       <div class="row">
         {{#each filterRest }}
-        <div class="card col-4">
+        <div class="list-group col-4">
           <a href="/restaurants/{{this.id}}">
-            <img src="{{this.image}}" class="card-img-top ml-2" alt="avatar" style="width: 100px;">
+            <img src="{{this.image}}" class="card-img mb-2" alt="avatar" style="width: 100px;">
             <small class="card-text ml-2">{{this.name}}</small>
           </a>
         </div>
@@ -88,7 +96,7 @@
     </div>
   </div>
 
-  <div class="card my-5 w-100">
+  <div class="card my-3 w-100">
     <div class="card-header">
       已留下 {{total}} 則評論
     </div>
