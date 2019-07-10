@@ -23,17 +23,15 @@ let categoryController = {
   },
 
   putCategory: (req, res) => {
-    if (!req.body.name) {
-      req.flash('error_messages', '未填寫分類名稱')
-      res.redirect('back')
-    } else {
-      Category.findByPk(req.params.id).then(category => {
-        category.update(req.body).then(category => {
-          req.flash('success_messages', '分類修改成功')
-          res.redirect('/admin/categories')
-        })
-      })
-    }
+    categoryService.putCategory(req, res, (data) => {
+      if (data['status'] === 'error') {
+        req.flash('error_messages', data['message'])
+        res.redirect('back')
+      } else {
+        req.flash('success_messages', data['message'])
+        res.redirect('/admin/categories')
+      }
+    })
   },
 
   deleteCategory: (req, res) => {
