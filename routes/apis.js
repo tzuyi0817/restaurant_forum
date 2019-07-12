@@ -6,6 +6,7 @@ const upload = multer({ dest: 'temp/' })
 
 const adminController = require('../controllers/api/adminController')
 const categoryController = require('../controllers/api/categoryController')
+const userController = require('../controllers/api/userController.js')
 
 router.get('/admin/restaurants', adminController.getRestaurants)
 router.post('/admin/restaurants', upload.single('image'), adminController.postRestaurant)
@@ -18,5 +19,7 @@ router.post('/admin/categories', categoryController.postCategory)
 router.get('/admin/categories/:id', categoryController.getCategories)
 router.put('/admin/categories/:id', categoryController.putCategory)
 router.delete('/admin/categories/:id', categoryController.deleteCategory)
+
+router.post('/signin', userController.signIn)
 
 module.exports = router
