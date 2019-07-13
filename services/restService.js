@@ -81,6 +81,20 @@ const restService = {
       callback({ restaurant, total, FavoriteCount })
     })
   },
+
+  getTopRestaurant: (req, res, callback) => {
+    Restaurant.findAll({ include: [{ model: User, as: 'FavoritedUsers' }] }).then(restaurants => {
+      restaurants = restaurants.map(r => ({
+        ...r.dataValues,
+        description: r.dataValues.description.substring(0, 50),
+        FavoriteCount: r.FavoritedUsers.length,
+        isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(r.id),
+      }))
+      restaurants = restaurants.sort((a, b) => b.FavoriteCount - a.FavoriteCount)
+      restaurants = restaurants.slice(0, 10)
+      callback({ restaurants })
+    })
+  },
 }
 
 module.exports = restService
