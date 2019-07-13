@@ -67,36 +67,14 @@ const userController = {
   },
 
   putUser: (req, res) => {
-    if (!req.body.name) {
-      req.flash('error_messages', '用戶名稱未填寫')
-      res.redirect('back')
-    } else {
-      const { file } = req
-      if (file) {
-        imgur.setClientID(IMGUR_CLIENT_ID)
-        imgur.upload(file.path, (err, img) => {
-          User.findByPk(req.params.id).then(user => {
-            user.update({
-              name: req.body.name,
-              image: file ? img.data.link : user.image
-            }).then(user => {
-              req.flash('success_messages', '個人資料修改成功')
-              res.redirect(`/users/${req.params.id}`)
-            })
-          })
-        })
-      } else {
-        User.findByPk(req.params.id).then(user => {
-          user.update({
-            name: req.body.name,
-            image: user.image
-          }).then(user => {
-            req.flash('success_messages', '個人資料修改成功')
-            res.redirect(`/users/${req.params.id}`)
-          })
-        })
+    userService.putUser(req, res, (data) => {
+      if (data['status'] === 'error') {
+        req.flash('error_messages', data['message'])
+        return res.redirect('back')
       }
-    }
+      req.flash('success_messages', data['message'])
+      res.redirect(`/users/${req.params.id}`)
+    })
   },
 
   addFavorite: (req, res) => {

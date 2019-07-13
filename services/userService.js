@@ -46,6 +46,35 @@ const userService = {
     })
   },
 
+  putUser: (req, res, callback) => {
+    if (!req.body.name) {
+      callback({ status: 'error', message: '用戶名稱未填寫' })
+    } else {
+      const { file } = req
+      if (file) {
+        imgur.setClientID(IMGUR_CLIENT_ID)
+        imgur.upload(file.path, (err, img) => {
+          User.findByPk(req.params.id).then(user => {
+            user.update({
+              name: req.body.name,
+              image: file ? img.data.link : user.image
+            }).then(user => {
+              callback({ status: 'success', message: '個人資料修改成功' })
+            })
+          })
+        })
+      } else {
+        User.findByPk(req.params.id).then(user => {
+          user.update({
+            name: req.body.name,
+            image: user.image
+          }).then(user => {
+            callback({ status: 'success', message: '個人資料修改成功' })
+          })
+        })
+      }
+    }
+  },
 }
 
 module.exports = userService
