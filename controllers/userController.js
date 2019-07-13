@@ -8,6 +8,7 @@ const Like = db.Like
 const Followship = db.Followship
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+const userService = require('../services/userService')
 
 const userController = {
   signUpPage: (req, res) => {
@@ -54,33 +55,8 @@ const userController = {
   },
 
   getUser: (req, res) => {
-    User.findByPk(req.params.id, {
-      include: [
-        { model: Comment, include: [Restaurant] },
-        { model: User, as: 'Followers' },
-        { model: User, as: 'Followings' },
-        { model: Restaurant, as: 'FavoritedRestaurants' }
-      ]
-    }).then(user => {
-      const total = user.Comments.length
-      const FollowerCount = user.Followers.length
-      const FollowingCount = user.Followings.length
-      const FavoriteCount = user.FavoritedRestaurants.length
-      const isFollowed = req.user.Followings.map(d => d.id).includes(user.id)
-      const restaurantComments = user.Comments.map(comment => comment.Restaurant)
-      const filterRest = filterValue(restaurantComments)
-      const restaurantCount = filterRest.length
-
-      res.render('user', {
-        profile: user,
-        total,
-        restaurantCount,
-        FollowingCount,
-        FollowerCount,
-        FavoriteCount,
-        isFollowed,
-        filterRest
-      })
+    userService.getUser(req, res, (data) => {
+      res.render('user', data)
     })
   },
 

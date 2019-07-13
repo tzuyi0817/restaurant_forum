@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt-nodejs')
 const db = require('../../models')
 const User = db.User
+const userService = require('../../services/userService')
 
 // JWT
 const jwt = require('jsonwebtoken')
@@ -56,6 +57,12 @@ let userController = {
         }
       })
     }
+  },
+
+  getUser: (req, res) => {
+    userService.getUser(req, res, (data) => {
+      return res.json(data)
+    })
   },
 }
 
