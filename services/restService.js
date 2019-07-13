@@ -67,6 +67,20 @@ const restService = {
       })
     })
   },
+
+  getDashboard: (req, res, callback) => {
+    Restaurant.findByPk(req.params.id, {
+      include: [
+        Category,
+        { model: Comment, include: [Restaurant] },
+        { model: User, as: 'FavoritedUsers' }
+      ]
+    }).then(restaurant => {
+      const total = restaurant.Comments.length
+      const FavoriteCount = restaurant.FavoritedUsers.length
+      callback({ restaurant, total, FavoriteCount })
+    })
+  },
 }
 
 module.exports = restService
