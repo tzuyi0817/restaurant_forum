@@ -37,5 +37,6 @@ router.post('/signin', userController.signIn)
 router.post('/signup', userController.signUp)
 
 router.get('/admin/users', authenticated, authenticatedAdmin, adminController.getUsers)
+router.put('/admin/users/:id', authenticated, authenticatedAdmin, adminController.putUsers)
 
 module.exports = router

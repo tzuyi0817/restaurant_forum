@@ -70,18 +70,13 @@ const adminController = {
   },
 
   putUsers: (req, res) => {
-    User.findByPk(req.params.id).then(user => {
-      if (user.isAdmin === true) {
-        user.isAdmin = false
-      } else if (user.isAdmin === false) {
-        user.isAdmin = true
-      }
-      user.save().then(user => {
-        req.flash('success_messages', '權限修改成功')
+    adminService.putUsers(req, res, (data) => {
+      if (data['status'] === 'success') {
+        req.flash('success_messages', data['message'])
         res.redirect('/admin/users')
-      })
+      }
     })
-  }
+  },
 }
 
 
