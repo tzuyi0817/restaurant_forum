@@ -28,6 +28,8 @@ router.get('/restaurants/dashboard/:id', authenticated, restController.getDashbo
 router.get('/restaurants/:id', authenticated, restController.getRestaurant)
 
 router.post('/comments', authenticated, commentController.postComment)
+router.delete('/comments/:id', authenticated, authenticatedAdmin, commentController.deleteComment)
+
 
 router.get('/admin/restaurants', authenticated, authenticatedAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/create', authenticated, authenticatedAdmin, adminController.createRestaurant)

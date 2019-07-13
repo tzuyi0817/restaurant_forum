@@ -11,6 +11,14 @@ let commentService = {
       callback({ status: 'success', message: '' })
     })
   },
+
+  deleteComment: (req, res, callback) => {
+    Comment.findByPk(req.params.id).then(comment => {
+      comment.destroy().then(comment => {
+        callback({ status: 'success', message: '', comment })
+      })
+    })
+  },
 }
 
 module.exports = commentService

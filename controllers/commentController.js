@@ -10,10 +10,10 @@ let commentController = {
   },
 
   deleteComment: (req, res) => {
-    Comment.findByPk(req.params.id).then(comment => {
-      comment.destroy().then(comment => {
-        res.redirect(`/restaurants/${comment.RestaurantId}`)
-      })
+    commentService.deleteComment(req, res, (data) => {
+      if (data['status'] === 'success') {
+        res.redirect(`/restaurants/${data['comment'].RestaurantId}`)
+      }
     })
   },
 }
