@@ -86,10 +86,10 @@ const userController = {
   },
 
   removeFavorite: (req, res) => {
-    Favorite.findOne({ where: { UserId: req.user.id, RestaurantId: req.params.restaurantId } }).then(favorite => {
-      favorite.destroy().then(restaurant => {
+    userService.removeFavorite(req, res, (data) => {
+      if (data['status'] === 'success') {
         res.redirect('back')
-      })
+      }
     })
   },
 
@@ -150,14 +150,3 @@ const userController = {
 }
 
 module.exports = userController
-
-const filterValue = (array) => {
-  const restaurant = {}
-
-  return array.filter(value => {
-    const string = JSON.stringify(value)
-    const match = Boolean(restaurant[string])
-
-    return (match ? false : restaurant[string] = true)
-  })
-}
