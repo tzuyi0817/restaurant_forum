@@ -64,8 +64,8 @@ const adminController = {
   },
 
   getUsers: (req, res) => {
-    User.findAll().then(users => {
-      res.render('admin/user', { users })
+    adminService.getUsers(req, res, (data) => {
+      res.render('admin/user', data)
     })
   },
 

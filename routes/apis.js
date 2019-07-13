@@ -36,4 +36,6 @@ router.delete('/admin/categories/:id', authenticated, authenticatedAdmin, catego
 router.post('/signin', userController.signIn)
 router.post('/signup', userController.signUp)
 
+router.get('/admin/users', authenticated, authenticatedAdmin, adminController.getUsers)
+
 module.exports = router
