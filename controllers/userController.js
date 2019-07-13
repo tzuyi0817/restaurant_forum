@@ -94,19 +94,18 @@ const userController = {
   },
 
   addLike: (req, res) => {
-    Like.create({
-      UserId: req.user.id,
-      RestaurantId: req.params.restaurantId
-    }).then(restaurant => {
-      res.redirect('back')
+    userService.addLike(req, res, (data) => {
+      if (data['status'] === 'success') {
+        res.redirect('back')
+      }
     })
   },
 
   removeLike: (req, res) => {
-    Like.findOne({ where: { UserId: req.user.id, RestaurantId: req.params.restaurantId } }).then(like => {
-      like.destroy().then(restaurant => {
+    userService.removeLike(req, res, (data) => {
+      if (data['status'] === 'success') {
         res.redirect('back')
-      })
+      }
     })
   },
 

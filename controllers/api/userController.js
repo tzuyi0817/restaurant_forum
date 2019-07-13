@@ -88,6 +88,18 @@ let userController = {
       return res.json(data)
     })
   },
+
+  addLike: (req, res) => {
+    userService.addLike(req, res, (data) => {
+      return res.json(data)
+    })
+  },
+
+  removeLike: (req, res) => {
+    userService.removeLike(req, res, (data) => {
+      return res.json(data)
+    })
+  },
 }
 
 module.exports = userController

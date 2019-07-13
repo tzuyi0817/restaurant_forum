@@ -92,6 +92,23 @@ const userService = {
       })
     })
   },
+
+  addLike: (req, res, callback) => {
+    Like.create({
+      UserId: req.user.id,
+      RestaurantId: req.params.restaurantId
+    }).then(restaurant => {
+      callback({ status: 'success', message: '' })
+    })
+  },
+
+  removeLike: (req, res, callback) => {
+    Like.findOne({ where: { UserId: req.user.id, RestaurantId: req.params.restaurantId } }).then(like => {
+      like.destroy().then(restaurant => {
+        callback({ status: 'success', message: '' })
+      })
+    })
+  },
 }
 
 module.exports = userService
