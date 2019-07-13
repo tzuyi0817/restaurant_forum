@@ -8,19 +8,8 @@ const restController = {
   },
 
   getRestaurant: (req, res) => {
-    Restaurant.findByPk(req.params.id, {
-      include: [
-        Category,
-        { model: Comment, include: [User] },
-        { model: User, as: 'FavoritedUsers' },
-        { model: User, as: 'LikeUsers' }
-      ]
-    }).then(restaurant => {
-      const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(req.user.id)
-      const isLike = restaurant.LikeUsers.map(d => d.id).includes(req.user.id)
-      restaurant.increment('viewCounts', { by: 1 }).then(restaurant => {
-        res.render('restaurant', { restaurant, isFavorited, isLike })
-      })
+    restService.getRestaurant(req, res, (data) => {
+      res.render('restaurant', data)
     })
   },
 

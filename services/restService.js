@@ -42,6 +42,23 @@ const restService = {
       })
     })
   },
+
+  getRestaurant: (req, res, callback) => {
+    Restaurant.findByPk(req.params.id, {
+      include: [
+        Category,
+        { model: Comment, include: [User] },
+        { model: User, as: 'FavoritedUsers' },
+        { model: User, as: 'LikeUsers' }
+      ]
+    }).then(restaurant => {
+      const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(req.user.id)
+      const isLike = restaurant.LikeUsers.map(d => d.id).includes(req.user.id)
+      restaurant.increment('viewCounts', { by: 1 }).then(restaurant => {
+        callback({ restaurant, isFavorited, isLike })
+      })
+    })
+  },
 }
 
 module.exports = restService
