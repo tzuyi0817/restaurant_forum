@@ -78,11 +78,10 @@ const userController = {
   },
 
   addFavorite: (req, res) => {
-    Favorite.create({
-      UserId: req.user.id,
-      RestaurantId: req.params.restaurantId
-    }).then(restaurant => {
-      res.redirect('back')
+    userService.addFavorite(req, res, (data) => {
+      if (data['status'] === 'success') {
+        res.redirect('back')
+      }
     })
   },
 

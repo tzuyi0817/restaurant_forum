@@ -75,6 +75,15 @@ const userService = {
       }
     }
   },
+
+  addFavorite: (req, res, callback) => {
+    Favorite.create({
+      UserId: req.user.id,
+      RestaurantId: req.params.restaurantId
+    }).then(restaurant => {
+      callback({ status: 'success', message: '' })
+    })
+  },
 }
 
 module.exports = userService
