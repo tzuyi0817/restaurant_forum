@@ -9,6 +9,7 @@ const restController = require('../controllers/api/restController')
 const adminController = require('../controllers/api/adminController')
 const categoryController = require('../controllers/api/categoryController')
 const userController = require('../controllers/api/userController')
+const commentController = require('../controllers/api/commentController')
 
 const authenticated = passport.authenticate('jwt', { session: false })
 
@@ -25,6 +26,8 @@ router.get('/restaurants/feeds', authenticated, restController.getFeeds)
 router.get('/restaurants/top', authenticated, restController.getTopRestaurant)
 router.get('/restaurants/dashboard/:id', authenticated, restController.getDashboard)
 router.get('/restaurants/:id', authenticated, restController.getRestaurant)
+
+router.post('/comments', authenticated, commentController.postComment)
 
 router.get('/admin/restaurants', authenticated, authenticatedAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/create', authenticated, authenticatedAdmin, adminController.createRestaurant)
