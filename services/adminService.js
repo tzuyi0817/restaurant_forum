@@ -19,6 +19,12 @@ const adminService = {
     })
   },
 
+  createRestaurant: (req, res, callback) => {
+    Category.findAll().then(categories => {
+      callback({ categories })
+    })
+  },
+
   postRestaurant: (req, res, callback) => {
     if (!req.body.name) {
       return callback({ status: 'error', message: '未填寫餐廳名稱' })
