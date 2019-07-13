@@ -61,6 +61,14 @@ const adminService = {
     }
   },
 
+  editRestaurant: (req, res, callback) => {
+    Restaurant.findByPk(req.params.id).then(restaurant => {
+      Category.findAll().then(categories => {
+        callback({ restaurant, categories })
+      })
+    })
+  },
+
   putRestaurant: (req, res, callback) => {
     if (!req.body.name) {
       return callback({ status: 'error', message: '未填寫餐廳名稱' })
