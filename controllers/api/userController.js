@@ -64,6 +64,12 @@ let userController = {
       return res.json(data)
     })
   },
+
+  editUser: (req, res) => {
+    userService.editUser(req, res, (data) => {
+      return res.json(data)
+    })
+  },
 }
 
 module.exports = userController

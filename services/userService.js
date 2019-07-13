@@ -40,6 +40,12 @@ const userService = {
     })
   },
 
+  editUser: (req, res, callback) => {
+    User.findByPk(req.params.id).then(user => {
+      callback({ user })
+    })
+  },
+
 }
 
 module.exports = userService

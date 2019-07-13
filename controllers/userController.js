@@ -61,8 +61,8 @@ const userController = {
   },
 
   editUser: (req, res) => {
-    User.findByPk(req.params.id).then(user => {
-      res.render('edit', { user })
+    userService.editUser(req, res, (data) => {
+      res.render('edit', data)
     })
   },
 
