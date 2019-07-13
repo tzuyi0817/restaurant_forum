@@ -125,6 +125,28 @@ const userService = {
       callback({ users })
     })
   },
+
+  addFollowing: (req, res, callback) => {
+    Followship.create({
+      followerId: req.user.id,
+      followingId: req.params.userId
+    }).then(followship => {
+      callback({ status: 'success', message: '' })
+    })
+  },
+
+  removeFollowing: (req, res, callback) => {
+    Followship.findOne({
+      where: {
+        followerId: req.user.id,
+        followingId: req.params.userId
+      }
+    }).then(followship => {
+      followship.destroy().then(followship => {
+        callback({ status: 'success', message: '' })
+      })
+    })
+  },
 }
 
 module.exports = userService

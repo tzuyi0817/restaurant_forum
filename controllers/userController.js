@@ -1,13 +1,6 @@
 const bcrypt = require('bcrypt-nodejs')
 const db = require('../models')
 const User = db.User
-const Restaurant = db.Restaurant
-const Comment = db.Comment
-const Favorite = db.Favorite
-const Like = db.Like
-const Followship = db.Followship
-const imgur = require('imgur-node-api')
-const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const userService = require('../services/userService')
 
 const userController = {
@@ -116,26 +109,20 @@ const userController = {
   },
 
   addFollowing: (req, res) => {
-    Followship.create({
-      followerId: req.user.id,
-      followingId: req.params.userId
-    }).then(followship => {
-      res.redirect('back')
+    userService.addFollowing(req, res, (data) => {
+      if (data['status'] === 'success') {
+        res.redirect('back')
+      }
     })
   },
 
   removeFollowing: (req, res) => {
-    Followship.findOne({
-      where: {
-        followerId: req.user.id,
-        followingId: req.params.userId
-      }
-    }).then(followship => {
-      followship.destroy().then(followship => {
+    userService.removeFollowing(req, res, (data) => {
+      if (data['status'] === 'success') {
         res.redirect('back')
-      })
+      }
     })
-  }
+  },
 }
 
 module.exports = userController
