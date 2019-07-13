@@ -5,9 +5,10 @@ const passport = require('../config/passport')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 
+const restController = require('../controllers/api/restController')
 const adminController = require('../controllers/api/adminController')
 const categoryController = require('../controllers/api/categoryController')
-const userController = require('../controllers/api/userController.js')
+const userController = require('../controllers/api/userController')
 
 const authenticated = passport.authenticate('jwt', { session: false })
 
@@ -18,6 +19,8 @@ const authenticatedAdmin = (req, res, next) => {
   }
   return res.json({ status: 'error', message: '沒有權限' })
 }
+
+router.get('/restaurants', authenticated, restController.getRestaurants)
 
 router.get('/admin/restaurants', authenticated, authenticatedAdmin, adminController.getRestaurants)
 router.get('/admin/restaurants/create', authenticated, authenticatedAdmin, adminController.createRestaurant)
