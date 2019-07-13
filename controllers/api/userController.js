@@ -100,6 +100,12 @@ let userController = {
       return res.json(data)
     })
   },
+
+  getTopUser: (req, res) => {
+    userService.getTopUser(req, res, (data) => {
+      return res.json(data)
+    })
+  },
 }
 
 module.exports = userController
